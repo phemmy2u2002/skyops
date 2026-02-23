@@ -15,6 +15,13 @@ function ProtectedRoute({ children }) {
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
+function CatchAllRoute() {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  return isAuthenticated
+    ? <Navigate to="/dashboard" replace />
+    : <Navigate to="/login" replace />;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -34,8 +41,9 @@ export default function App() {
           <Route path="weather" element={<Weather />} />
           <Route path="notams" element={<Notams />} />
           <Route path="dispatch" element={<Dispatch />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<CatchAllRoute />} />
       </Routes>
     </BrowserRouter>
   );
